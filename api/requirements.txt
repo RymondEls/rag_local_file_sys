@@ -8,3 +8,5 @@ langchain_chroma
 python-multipart
 fastapi
 uvicorn
+streamlit
+sentence-transformers

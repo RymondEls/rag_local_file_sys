@@ -1,4 +1,5 @@
-from langchain_openai import ChatOpenAI
+# from langchain_openai import ChatOpenAI
+from langchain_community.chat_models import ChatOllama
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
@@ -34,7 +35,8 @@ qa_prompt = ChatPromptTemplate.from_messages([
 ])
 
 def get_rag_chain(model="gpt-4o-mini"):
-    llm = ChatOpenAI(model=model)
+    # llm = ChatOpenAI(model=model)
+    llm = ChatOllama(model=model)
     history_aware_retriever = create_history_aware_retriever(llm, retriever, contextualize_q_prompt)
     question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
     rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)    
