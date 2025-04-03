@@ -1,8 +1,8 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
-from pydantic_models import QueryInput, QueryResponse, DocumentInfo, DeleteFileRequest
-from langchain_utils import get_rag_chain
-from db_utils import insert_application_logs, get_chat_history, get_all_documents, insert_document_record, delete_document_record
-from chroma_utils import index_document_to_chroma, delete_doc_from_chroma
+from .pydantic_models import QueryInput, QueryResponse, DocumentInfo, DeleteFileRequest
+from .langchain_utils import get_rag_chain
+from .db_utils import insert_application_logs, get_chat_history, get_all_documents, insert_document_record, delete_document_record
+from .chroma_utils import index_document_to_chroma, delete_doc_from_chroma
 import os
 import uuid
 import logging
@@ -71,5 +71,3 @@ def delete_document(request: DeleteFileRequest):
             return {"error": f"Deleted from Chroma but failed to delete document with file_id {request.file_id} from the database."}
     else:
         return {"error": f"Failed to delete document with file_id {request.file_id} from Chroma."}
-
-print("hello")
