@@ -9,3 +9,5 @@ sentence-transformers
 fastapi
 uvicorn
 streamlit
+langchain_huggingface
+python-dotenv

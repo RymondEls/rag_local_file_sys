@@ -1,14 +1,13 @@
 import requests
 import streamlit as st
 
-def get_api_response(question, session_id, model):
+def get_api_response(question, session_id):
     headers = {
         'accept': 'application/json',
         'Content-Type': 'application/json'
     }
     data = {
-        "question": question,
-        "model": model
+        "question": question
     }
     if session_id:
         data["session_id"] = session_id
