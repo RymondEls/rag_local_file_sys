@@ -11,3 +11,4 @@ uvicorn
 streamlit
 langchain_huggingface
 python-dotenv
+langchain-openai

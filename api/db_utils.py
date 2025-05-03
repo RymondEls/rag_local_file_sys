@@ -27,6 +27,14 @@ def create_document_store():
                      upload_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
     conn.close()
 
+def get_filename_by_id(file_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT filename FROM document_store WHERE id = ?', (file_id,))
+    result = cursor.fetchone()
+    conn.close()
+    return result['filename'] if result else None
+
 def insert_application_logs(session_id, user_query, gpt_response, model):
     conn = get_db_connection()
     conn.execute('INSERT INTO application_logs (session_id, user_query, gpt_response, model) VALUES (?, ?, ?, ?)',

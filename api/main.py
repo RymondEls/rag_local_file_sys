@@ -1,7 +1,7 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from pydantic_models import QueryInput, QueryResponse, DocumentInfo, DeleteFileRequest
-from langchain_utils import get_rag_chain
-from db_utils import insert_application_logs, get_chat_history, get_all_documents, insert_document_record, delete_document_record
+from langchain_utils import get_rag_chain, retriever
+from db_utils import insert_application_logs, get_chat_history, get_all_documents, insert_document_record, delete_document_record, get_filename_by_id
 from chroma_utils import index_document_to_chroma, delete_doc_from_chroma
 import os
 import uuid
@@ -12,6 +12,7 @@ logging.basicConfig(filename='app.log', level=logging.INFO)
 
 app = FastAPI()
 
+
 @app.post("/chat", response_model=QueryResponse)
 def chat(query_input: QueryInput):
     session_id = query_input.session_id or str(uuid.uuid4())
@@ -19,14 +20,35 @@ def chat(query_input: QueryInput):
 
     chat_history = get_chat_history(session_id)
     rag_chain = get_rag_chain()
-    answer = rag_chain.invoke({
+
+    # Вызываем RAG-цепочку и получаем результат
+    result = rag_chain.invoke({
         "input": query_input.question,
         "chat_history": chat_history
-    })['answer']
+    })
+    answer = result['answer']
 
-    insert_application_logs(session_id, query_input.question, answer, "mistralai/Mixtral-8x7B-Instruct-v0.1")
+    # Получаем context отдельно с помощью retriever
+    context = retriever.get_relevant_documents(query_input.question)
+
+    # Извлекаем file_id из контекста
+    file_ids = set()
+    for doc in context:
+        file_id = doc.metadata.get('file_id')
+        if file_id:
+            file_ids.add(file_id)
+
+    # Получаем имена файлов
+    filenames = [get_filename_by_id(file_id) for file_id in file_ids]
+    filenames = [name for name in filenames if name]  # Фильтруем None
+
+    # Дополняем ответ информацией о файлах
+    if filenames:
+        answer += f"\n\n**Источник:** Ответ основан на информации из следующих файлов: {', '.join(filenames)}."
+
+    insert_application_logs(session_id, query_input.question, answer, "mistralai/mistral-7b-instruct:free")
     logging.info(f"Session ID: {session_id}, AI Response: {answer}")
-    return QueryResponse(answer=answer, session_id=session_id)
+    return QueryResponse(answer=answer, session_id=session_id, model="mistralai/mistral-7b-instruct:free")
 
 @app.post("/upload-doc")
 def upload_and_index_document(file: UploadFile = File(...)):

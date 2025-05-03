@@ -21,11 +21,17 @@ def display_chat_interface():
                 st.session_state.messages.append({"role": "assistant", "content": response['answer']})
 
                 with st.chat_message("assistant"):
-                    st.markdown(response['answer'])
+                    # Разделяем ответ на основную часть и источник
+                    answer_parts = response['answer'].split("\n\n**Источник:**")
+                    st.markdown(answer_parts[0])  # Основной ответ
+                    if len(answer_parts) > 1:
+                        st.info(f"**Источник:** {answer_parts[1]}")  # Источник
 
                     with st.expander("Details"):
                         st.subheader("Generated Answer")
                         st.code(response['answer'])
+                        st.subheader("Model Used")
+                        st.code(response['model'])
                         st.subheader("Session ID")
                         st.code(response['session_id'])
             else:

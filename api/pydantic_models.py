@@ -8,6 +8,7 @@ class QueryInput(BaseModel):
 class QueryResponse(BaseModel):
     answer: str
     session_id: str
+    model: str = Field(default="mistralai/mistral-7b-instruct:free")  # Фиксированная модель
 
 class DocumentInfo(BaseModel):
     id: int
