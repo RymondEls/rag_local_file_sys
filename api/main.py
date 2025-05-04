@@ -12,14 +12,13 @@ logging.basicConfig(filename='app.log', level=logging.INFO)
 
 app = FastAPI()
 
-
 @app.post("/chat", response_model=QueryResponse)
 def chat(query_input: QueryInput):
     session_id = query_input.session_id or str(uuid.uuid4())
-    logging.info(f"Session ID: {session_id}, User Query: {query_input.question}")
+    logging.info(f"Session ID: {session_id}, User Query: {query_input.question}, Model: {query_input.model}")
 
     chat_history = get_chat_history(session_id)
-    rag_chain = get_rag_chain()
+    rag_chain = get_rag_chain(model=query_input.model)
 
     # Вызываем RAG-цепочку и получаем результат
     result = rag_chain.invoke({
@@ -46,9 +45,9 @@ def chat(query_input: QueryInput):
     if filenames:
         answer += f"\n\n**Источник:** Ответ основан на информации из следующих файлов: {', '.join(filenames)}."
 
-    insert_application_logs(session_id, query_input.question, answer, "mistralai/mistral-7b-instruct:free")
-    logging.info(f"Session ID: {session_id}, AI Response: {answer}")
-    return QueryResponse(answer=answer, session_id=session_id, model="mistralai/mistral-7b-instruct:free")
+    insert_application_logs(session_id, query_input.question, answer, query_input.model)
+    logging.info(f"Session ID: {session_id}, AI Response: {answer}, Model: {query_input.model}")
+    return QueryResponse(answer=answer, session_id=session_id, model=query_input.model)
 
 @app.post("/upload-doc")
 def upload_and_index_document(file: UploadFile = File(...)):

@@ -1,7 +1,6 @@
 import streamlit as st
 from api_utils import get_api_response
 
-
 def display_chat_interface():
     # Chat interface
     for message in st.session_state.messages:
@@ -14,7 +13,9 @@ def display_chat_interface():
             st.markdown(prompt)
 
         with st.spinner("Generating response..."):
-            response = get_api_response(prompt, st.session_state.session_id)
+            # Используем модель из session_state
+            selected_model = st.session_state.get('selected_model', 'mistralai/mistral-7b-instruct:free')
+            response = get_api_response(prompt, st.session_state.session_id, selected_model)
 
             if response:
                 st.session_state.session_id = response.get('session_id')

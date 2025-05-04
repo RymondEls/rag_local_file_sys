@@ -31,11 +31,11 @@ qa_prompt = ChatPromptTemplate.from_messages([
     ("human", "{input}")
 ])
 
-def get_rag_chain():
+def get_rag_chain(model: str = "mistralai/mistral-7b-instruct:free"):
     llm = ChatOpenAI(
         openai_api_key=os.getenv("OPENROUTER_API_KEY"),
         openai_api_base="https://openrouter.ai/api/v1",
-        model="mistralai/mistral-7b-instruct:free",
+        model=model,
         temperature=0.7,
         max_tokens=512
     )

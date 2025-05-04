@@ -1,8 +1,23 @@
 import streamlit as st
 from api_utils import upload_document, list_documents, delete_document
 
-
 def display_sidebar():
+    # Sidebar: Model Selection
+    st.sidebar.header("Выбор модели")
+    available_models = [
+        "mistralai/mistral-7b-instruct:free",
+        "meta-llama/llama-3.2-3b-instruct:free",
+        "meta-llama/llama-4-scout:free",
+        "meta-llama/llama-4-maverick:free",
+        "deepseek/deepseek-prover-v2:free",
+        "tngtech/deepseek-r1t-chimera:free"
+        "deepseek/deepseek-v3-base:free",
+        "google/gemini-2.0-flash-exp:free",
+        "google/gemini-flash-1.5-8b-exp"
+
+    ]
+    selected_model = st.sidebar.selectbox("Выберите модель:", available_models, index=0, key="selected_model")
+
     # Sidebar: Upload Document
     st.sidebar.header("Upload Document")
     uploaded_file = st.sidebar.file_uploader("Choose a file", type=["pdf", "docx", "html"])
