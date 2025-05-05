@@ -1,0 +1,142 @@
+/* Global Styles */
+body {
+    /* Изменен фон на очень светлый синий (AliceBlue) */
+    background-color: #F0F8FF !important;
+    font-family: 'Arial', sans-serif;
+    /* Изменен основной цвет текста на умеренно-синий (SteelBlue) */
+    color: #4682B4 !important;
+}
+
+/* Main Content */
+.main {
+    /* Фон основного контента совпадает с фоном body */
+    background-color: #F0F8FF !important;
+}
+
+/* Sidebar Styles */
+.stSidebar > div {
+    /* Фон боковой панели - немного светлее основного (почти белый с синеватым оттенком) */
+    background-color: #F8F8FF !important; /* GhostWhite */
+    padding: 1em;
+}
+
+/* Divider */
+.stDivider {
+    margin: 0.5em 0 !important;
+}
+
+/* Expander */
+.stExpander {
+    background-color: #F8F8FF; 
+    border-radius: 8px;
+    margin: 0.2em 0 !important;
+    color: #4682B4;
+}
+
+.stButton > button[type="primary"] {
+    background-color: #87CEFA !important;
+    color: #FFFFFF !important;
+    border-radius: 8px;
+    padding: 0.5em 1em;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+.stButton > button[type="primary"]:hover {
+    background-color: #87CEEB !important;
+}
+
+.stButton > button[type="secondary"] {
+    background-color: #B0C4DE !important;
+    color: #FFFFFF !important;
+    border-radius: 8px;
+    padding: 0.5em 1em;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+.stButton > button[type="secondary"]:hover {
+    background-color: #4682B4 !important;
+}
+
+.stSelectbox > div > div {
+    background-color: #FFFFFF !important;
+    border: 1px solid #87CEFA !important;
+    border-radius: 8px;
+    padding: 0.5em;
+    color: #4682B4 !important;
+}
+
+.stSelectbox > div > div:hover {
+    border-color: #4682B4 !important;
+}
+
+.stSelectbox label {
+    color: #4682B4 !important;
+}
+
+.stSelectbox .stSelectbox-menu {
+    background-color: #FFFFFF !important; 
+    color: #4682B4 !important;
+}
+
+.stSelectbox .stSelectbox-menu > div {
+    color: #4682B4 !important;
+}
+
+.stSelectbox .stSelectbox-menu > div:hover {
+    background-color: #F0F8FF !important;
+}
+
+.stFileUploader > div {
+    border: 2px dashed #87CEFA !important;
+    border-radius: 8px;
+    padding: 1em;
+    background-color: #FFFFFF !important; 
+    text-align: center;
+    color: #4682B4 !important;
+}
+
+.stFileUploader label {
+    color: #4682B4 !important;
+}
+
+/* Chat Interface */
+.chat-container {
+    background-color: #FFFFFF !important; 
+    border-radius: 10px;
+    padding: 1em;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin: 1em 0;
+}
+
+.stChatMessage[data-role="user"] {
+    background-color: #F0F8FF !important;
+    border-left: 4px solid #87CEFA;
+    border-radius: 8px;
+    padding: 1em;
+    color: #4682B4;
+}
+
+.stChatMessage[data-role="assistant"] {
+    background-color: #F8F8FF !important;
+    border-left: 4px solid #4682B4;
+    border-radius: 8px;
+    padding: 1em;
+    color: #4682B4;
+}
+
+.stChatInput > div > input {
+    border: 1px solid #87CEFA;
+    border-radius: 8px;
+    padding: 0.5em;
+    color: #4682B4;
+}
+
+.stInfo {
+    background-color: #F0F8FF;
+    border-left: 4px solid #87CEFA;
+    border-radius: 8px;
+    padding: 1em;
+    color: #4682B4;
+}

@@ -2,7 +2,16 @@ import streamlit as st
 from sidebar import display_sidebar
 from chat_interface import display_chat_interface
 
-st.title("Langchain RAG Chatbot")
+st.set_page_config(
+    page_title="Langchain RAG Chatbot",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
+with open("styles.css", encoding="utf-8") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+st.title("📚 Langchain RAG Chatbot")
 
 # Initialize session state variables
 if "messages" not in st.session_state:
