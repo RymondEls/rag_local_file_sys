@@ -6,7 +6,7 @@ def display_sidebar():
         # Sidebar header
         st.header("Настройки чатбота")
         st.divider()
-        
+
         # Model Selection Section
         with st.expander("Выбор модели", expanded=True):
             st.subheader("Модель ИИ")
@@ -28,17 +28,17 @@ def display_sidebar():
                 key="selected_model",
                 help="Выберите модель ИИ для ответов."
             )
-        
+
         st.divider()
-        
+
         # File Upload Section
         with st.expander("Загрузка документа", expanded=True):
             st.subheader("Добавить файл")
             uploaded_file = st.file_uploader(
                 "Перетащите или выберите файл",
-                type=["pdf", "docx", "html", "txt", "md", "py"],
+                type=["pdf", "docx", "html", "txt", "md", "py", "png", "jpg", "jpeg"],
                 key="file_uploader",
-                help="Поддерживаемые форматы: PDF, DOCX, HTML, TXT, Markdown, Python"
+                help="Поддерживаемые форматы: PDF, DOCX, HTML, TXT, Markdown, Python, PNG, JPG, JPEG"
             )
             if uploaded_file is not None:
                 if st.button("Загрузить", key="upload_button", type="primary"):
@@ -51,24 +51,24 @@ def display_sidebar():
                             st.session_state.documents = list_documents()
                         else:
                             st.error("Не удалось загрузить файл.")
-        
+
         st.divider()
-        
+
         # Document Management Section
         with st.expander("Управление документами", expanded=True):
             st.subheader("Список документов")
             if st.button("Обновить список", key="refresh_button", type="primary"):
                 with st.spinner("Обновление..."):
                     st.session_state.documents = list_documents()
-            
+
             if "documents" not in st.session_state:
                 st.session_state.documents = list_documents()
-            
+
             documents = st.session_state.documents
             if documents:
                 for doc in documents:
                     st.write(f"{doc['filename']} (ID: {doc['id']}, Загружен: {doc['upload_timestamp']})")
-                
+
                 selected_file_id = st.selectbox(
                     "Выберите документ для удаления",
                     options=[doc['id'] for doc in documents],

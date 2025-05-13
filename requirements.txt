@@ -12,3 +12,5 @@ streamlit
 langchain_huggingface
 python-dotenv
 langchain-openai
+pytesseract
+Pillow

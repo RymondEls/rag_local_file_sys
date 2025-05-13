@@ -23,28 +23,23 @@ def chat(query_input: QueryInput):
     chat_history = get_chat_history(session_id)
     rag_chain = get_rag_chain(model=query_input.model)
 
-    # Вызываем RAG-цепочку и получаем результат
     result = rag_chain.invoke({
         "input": query_input.question,
         "chat_history": chat_history
     })
     answer = result['answer']
 
-    # Получаем context отдельно с помощью retriever
     context = retriever.get_relevant_documents(query_input.question)
 
-    # Извлекаем file_id из контекста
     file_ids = set()
     for doc in context:
         file_id = doc.metadata.get('file_id')
         if file_id:
             file_ids.add(file_id)
 
-    # Получаем имена файлов
     filenames = [get_filename_by_id(file_id) for file_id in file_ids]
-    filenames = [name for name in filenames if name]  # Фильтруем None
+    filenames = [name for name in filenames if name]
 
-    # Дополняем ответ информацией о файлах
     if filenames:
         answer += f"\n\n**Источник:** Ответ основан на информации из следующих файлов: {', '.join(filenames)}."
 
@@ -54,11 +49,17 @@ def chat(query_input: QueryInput):
 
 @app.post("/upload-doc")
 def upload_and_index_document(file: UploadFile = File(...)):
-    allowed_extensions = ['.pdf', '.docx', '.html', '.txt', '.md', '.py']
+    allowed_extensions = ['.pdf', '.docx', '.html', '.txt', '.md', '.py', '.png', '.jpg', '.jpeg']
     file_extension = os.path.splitext(file.filename)[1].lower()
 
     if file_extension not in allowed_extensions:
         raise HTTPException(status_code=400, detail=f"Unsupported file type. Allowed types are: {', '.join(allowed_extensions)}")
+
+    max_file_size = 10 * 1024 * 1024  # 10 MB
+    if file.size > max_file_size:
+        raise HTTPException(status_code=400, detail="File size exceeds 10MB limit.")
+    if file.size == 0:
+        raise HTTPException(status_code=400, detail="File is empty.")
 
     temp_file_path = os.path.join("temp", f"temp_{file.filename}")
 
@@ -73,11 +74,10 @@ def upload_and_index_document(file: UploadFile = File(...)):
             return {"message": f"File {file.filename} has been successfully uploaded and indexed.", "file_id": file_id}
         else:
             delete_document_record(file_id)
-            raise HTTPException(status_code=500, detail=f"Failed to index {file.filename}.")
+            raise HTTPException(status_code=500, detail=f"Failed to index {file.filename}. Possibly no text could be extracted from the image.")
     finally:
         if os.path.exists(temp_file_path):
             os.remove(temp_file_path)
-
 @app.get("/list-docs", response_model=list[DocumentInfo])
 def list_documents():
     return get_all_documents()
