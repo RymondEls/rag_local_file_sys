@@ -1,4 +1,4 @@
-from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader, UnstructuredHTMLLoader
+from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader, UnstructuredHTMLLoader, TextLoader, UnstructuredMarkdownLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
@@ -18,6 +18,12 @@ def load_and_split_document(file_path: str) -> List[Document]:
         loader = Docx2txtLoader(file_path)
     elif file_path.endswith('.html'):
         loader = UnstructuredHTMLLoader(file_path)
+    elif file_path.endswith('.txt'):
+        loader = TextLoader(file_path)
+    elif file_path.endswith('.md'):
+        loader = UnstructuredMarkdownLoader(file_path)
+    elif file_path.endswith('.py'):
+        loader = TextLoader(file_path)
     else:
         raise ValueError(f"Unsupported file type: {file_path}")
 

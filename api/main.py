@@ -12,6 +12,9 @@ logging.basicConfig(filename='app.log', level=logging.INFO)
 
 app = FastAPI()
 
+# Создать директорию temp, если она не существует
+os.makedirs("temp", exist_ok=True)
+
 @app.post("/chat", response_model=QueryResponse)
 def chat(query_input: QueryInput):
     session_id = query_input.session_id or str(uuid.uuid4())
@@ -51,13 +54,13 @@ def chat(query_input: QueryInput):
 
 @app.post("/upload-doc")
 def upload_and_index_document(file: UploadFile = File(...)):
-    allowed_extensions = ['.pdf', '.docx', '.html']
+    allowed_extensions = ['.pdf', '.docx', '.html', '.txt', '.md', '.py']
     file_extension = os.path.splitext(file.filename)[1].lower()
 
     if file_extension not in allowed_extensions:
         raise HTTPException(status_code=400, detail=f"Unsupported file type. Allowed types are: {', '.join(allowed_extensions)}")
 
-    temp_file_path = f"temp_{file.filename}"
+    temp_file_path = os.path.join("temp", f"temp_{file.filename}")
 
     try:
         with open(temp_file_path, "wb") as buffer:

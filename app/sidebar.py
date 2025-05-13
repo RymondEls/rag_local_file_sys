@@ -36,9 +36,9 @@ def display_sidebar():
             st.subheader("Добавить файл")
             uploaded_file = st.file_uploader(
                 "Перетащите или выберите файл",
-                type=["pdf", "docx", "html"],
+                type=["pdf", "docx", "html", "txt", "md", "py"],
                 key="file_uploader",
-                help="Поддерживаемые форматы: PDF, DOCX, HTML"
+                help="Поддерживаемые форматы: PDF, DOCX, HTML, TXT, Markdown, Python"
             )
             if uploaded_file is not None:
                 if st.button("Загрузить", key="upload_button", type="primary"):
