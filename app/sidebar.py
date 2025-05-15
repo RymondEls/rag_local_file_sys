@@ -3,11 +3,9 @@ from api_utils import upload_document, list_documents, delete_document
 
 def display_sidebar():
     with st.sidebar:
-        # Sidebar header
         st.header("Настройки чатбота")
         st.divider()
 
-        # Model Selection Section
         with st.expander("Выбор модели", expanded=True):
             st.subheader("Модель ИИ")
             available_models = [
@@ -31,7 +29,6 @@ def display_sidebar():
 
         st.divider()
 
-        # File Upload Section
         with st.expander("Загрузка документа", expanded=True):
             st.subheader("Добавить файл")
             uploaded_file = st.file_uploader(
@@ -54,7 +51,6 @@ def display_sidebar():
 
         st.divider()
 
-        # Document Management Section
         with st.expander("Управление документами", expanded=True):
             st.subheader("Список документов")
             if st.button("Обновить список", key="refresh_button", type="primary"):

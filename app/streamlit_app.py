@@ -3,7 +3,7 @@ from sidebar import display_sidebar
 from chat_interface import display_chat_interface
 
 st.set_page_config(
-    page_title="Langchain RAG Chatbot",
+    page_title="RAG - Локальная файловая система",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -11,17 +11,14 @@ st.set_page_config(
 with open("styles.css", encoding="utf-8") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-st.title("📚 Langchain RAG Chatbot")
+st.title("📚 RAG - Локальная файловая система")
 
-# Initialize session state variables
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
 if "session_id" not in st.session_state:
     st.session_state.session_id = None
 
-# Display the sidebar
 display_sidebar()
 
-# Display the chat interface
 display_chat_interface()

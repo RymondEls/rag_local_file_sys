@@ -26,7 +26,8 @@ contextualize_q_prompt = ChatPromptTemplate.from_messages([
 ])
 
 qa_prompt = ChatPromptTemplate.from_messages([
-    ("system", "You are a helpful AI assistant. Use the following context to answer the user's question.\n\nContext: {context}"),
+    ("system", "You are a helpful AI assistant. Use the following context to answer the user's question. Answer in russian unless user didn't ask for different language"
+    "\n\nContext: {context}"),
     MessagesPlaceholder(variable_name="chat_history"),
     ("human", "{input}")
 ])
