@@ -11,7 +11,7 @@ import logging
 
 logging.basicConfig(filename='app.log', level=logging.INFO)
 
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd = r'D:\nes_but_not\tesseract.exe'
 
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200, length_function=len)
 

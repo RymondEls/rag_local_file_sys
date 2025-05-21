@@ -15,9 +15,7 @@ def display_sidebar():
                 "meta-llama/llama-4-maverick:free",
                 "deepseek/deepseek-prover-v2:free",
                 "tngtech/deepseek-r1t-chimera:free",
-                "deepseek/deepseek-v3-base:free",
-                "google/gemini-2.0-flash-exp:free",
-                "google/gemini-flash-1.5-8b-exp"
+                "deepseek/deepseek-v3-base:free"
             ]
             selected_model = st.selectbox(
                 "Выберите модель:",

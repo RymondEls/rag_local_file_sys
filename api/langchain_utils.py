@@ -37,7 +37,7 @@ def get_rag_chain(model: str = "mistralai/mistral-7b-instruct:free"):
         openai_api_key=os.getenv("OPENROUTER_API_KEY"),
         openai_api_base="https://openrouter.ai/api/v1",
         model=model,
-        temperature=0.7,
+        temperature=0.1,
         max_tokens=512
     )
     history_aware_retriever = create_history_aware_retriever(llm, retriever, contextualize_q_prompt)
