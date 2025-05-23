@@ -9,7 +9,7 @@ import os
 load_dotenv()
 os.environ["OPENROUTER_API_KEY"] = os.getenv("OPENROUTER_API_KEY")
 
-retriever = vectorstore.as_retriever(search_kwargs={"k": 2})
+retriever = vectorstore.as_retriever(search_kwargs={"k": 1})
 
 contextualize_q_system_prompt = (
     "Given a chat history and the latest user question "

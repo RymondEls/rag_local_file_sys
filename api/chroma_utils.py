@@ -31,8 +31,14 @@ def load_and_split_document(file_path: str) -> List[Document]:
         loader = UnstructuredHTMLLoader(file_path)
         documents = loader.load()
     elif file_path.endswith('.txt'):
-        loader = TextLoader(file_path)
-        documents = loader.load()
+        # Указываем кодировку UTF-8, с fallback на cp1251 для Windows
+        try:
+            loader = TextLoader(file_path, encoding='utf-8')
+            documents = loader.load()
+        except UnicodeDecodeError:
+            logging.warning(f"UTF-8 decoding failed for {file_path}, trying cp1251")
+            loader = TextLoader(file_path, encoding='cp1251')
+            documents = loader.load()
     elif file_path.endswith('.md'):
         loader = UnstructuredMarkdownLoader(file_path)
         documents = loader.load()

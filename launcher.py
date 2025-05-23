@@ -25,5 +25,5 @@ def wait_until_ready(url, timeout=20):
 if __name__ == "__main__":
     threading.Thread(target=run_streamlit).start()
     wait_until_ready("http://localhost:8501")
-    webview.create_window("Streamlit App", "http://localhost:8501", width=1200, height=800)
+    webview.create_window("RAG ассистент. Локальная файловая система.", "http://localhost:8501", width=1200, height=800)
     webview.start()

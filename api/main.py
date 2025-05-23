@@ -80,7 +80,7 @@ def chat(query_input: QueryInput):
     context = retriever.get_relevant_documents(query_input.question)
 
     file_ids = set()
-    similarity_threshold = 0.25  # Порог сходства для документов
+    similarity_threshold = 0.2  # Порог сходства для документов
 
     for doc in context:
         file_id = doc.metadata.get('file_id')
@@ -117,7 +117,15 @@ def upload_and_index_document(file: UploadFile = File(...)):
     if file.size == 0:
         raise HTTPException(status_code=400, detail="File is empty.")
 
-    temp_file_path = os.path.join("temp", f"temp_{file.filename}")
+    # Переименовываем .py в .txt
+    if file_extension == '.py':
+        temp_filename = f"temp_{os.path.splitext(file.filename)[0]}.txt"
+        logging.info(f"Renaming .py file to .txt: {temp_filename}")
+    else:
+        temp_filename = f"temp_{file.filename}"
+    temp_file_path = os.path.join("temp", temp_filename)
+
+    logging.info(f"Writing file to: {temp_file_path}")
 
     try:
         with open(temp_file_path, "wb") as buffer:
